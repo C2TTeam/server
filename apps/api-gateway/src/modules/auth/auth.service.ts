@@ -22,4 +22,8 @@ export class AuthService implements OnModuleInit {
   login(req: DefaultRequest): Observable<DefaultResponse> {
     return this.service.login(req);
   }
+
+  logout(req: DefaultRequest): Observable<DefaultResponse> {
+    return this.service.logout(req);
+  }
 }

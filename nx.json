@@ -40,7 +40,9 @@
       "exclude": [
         "apps/api-gateway-e2e/**/*",
         "auth-e2e/**/*",
-        "apps/auth-e2e/**/*"
+        "apps/auth-e2e/**/*",
+        "user-e2e/**/*",
+        "apps/user-e2e/**/*"
       ]
     }
   ],

@@ -13,22 +13,34 @@
 
 ## Run tasks
 
-To run the dev server for your app, use:
+To run the all dev server for your app, use:
 
 ```sh
-npx nx serve api-gateway
+make run
 ```
 
-To create a production bundle:
+Add new service to app, use:
 
 ```sh
-npx nx build api-gateway
+nx g @nx/nest:application apps/[name]
 ```
 
-To see all available targets to run for a project, run:
+Add new module to app, use:
 
 ```sh
-npx nx show project api-gateway
+nx g @nx/nest:module apps/auth/src/module/auth/auth
+```
+
+Add new service to app, use:
+
+```sh
+nx g @nx/nest:service apps/auth/src/module/auth/auth
+```
+
+Add new service to app, use:
+
+```sh
+nx g @nx/nest:controller apps/auth/src/module/auth/auth
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.

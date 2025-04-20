@@ -15,4 +15,9 @@ export class AuthController {
   private async login(req: any): Promise<DefaultResponse> {
     return this.service.login(req);
   }
+
+  @GrpcMethod(AUTH_SERVICE_NAME, 'Logout')
+  private async logout(req: any): Promise<DefaultResponse> {
+    return this.service.logout(req);
+  }
 }

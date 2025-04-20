@@ -1,11 +1,10 @@
 syntax = "proto3";
 import "google/protobuf/struct.proto";
 
-package auth;
+package user;
 
-service AuthService {
-  rpc Login (DefaultRequest) returns (DefaultResponse) {}
-  rpc Logout (DefaultRequest) returns (DefaultResponse) {}
+service UserService {
+  rpc UserInfo (DefaultRequest) returns (DefaultResponse) {}
 }
 
 message DefaultRequest {

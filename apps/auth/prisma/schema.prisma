@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(uuid())
+  username         String
+  password         String?
+  salt             String?
+  phone            String?
+  isActive         Boolean   @default(false) @map("is_active")
+  roleId           String[]  @map("role_id")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @default(now()) @map("updated_at")
+  
+  @@map("users")
+}
+
+model Menu {
+  id               String    @id @default(uuid())
+  name             String
+  path             String
+  parentId         String    @map("parent_id")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @default(now()) @map("updated_at")
+  
+  @@map("menus")
+}
+
+model Role {
+  id               String    @id @default(uuid())
+  name             String
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @default(now()) @map("updated_at")
+  
+  @@map("roles")
+}
+
+model RoleMenu {
+  id               String    @id @default(uuid())
+  roleId           String    @map("role_id")
+  menuId           String    @map("menu_id")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @default(now()) @map("updated_at")
+  
+  @@map("role_menus")
+}
+
