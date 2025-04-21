@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 
 export class LoginBodyDto {
   @IsNotEmpty()
-  email: string;
+  username: string;
 
   @IsNotEmpty()
   password: string;

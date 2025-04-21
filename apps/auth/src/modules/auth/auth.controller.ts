@@ -5,8 +5,10 @@ import {
   AUTH_SERVICE_NAME,
   DefaultResponse,
 } from '@libs/shared/proto/gen/auth.pb';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller()
+@Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   @Inject(AuthService)
   private readonly service: AuthService;
