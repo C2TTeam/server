@@ -14,47 +14,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id               String    @id @default(uuid())
-  username         String    @unique
-  password         String?
-  salt             String?
-  phone            String?
-  isActive         Boolean   @default(false) @map("is_active")
-  roleId           String[]  @map("role_id")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @default(now()) @map("updated_at")
-  
-  @@map("users")
+enum Status {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
 }
 
-model Menu {
-  id               String    @id @default(uuid())
-  name             String
-  path             String
-  parentId         String    @map("parent_id")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @default(now()) @map("updated_at")
-  
-  @@map("menus")
+model User {
+  id         Int         @id @default(autoincrement())
+  username   String     @unique
+  password   String
+  salt       String     // thêm trường salt
+  email      String?    
+  fullName   String?
+  status     Status     @default(ACTIVE)
+  userRoles  UserRole[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Role {
-  id               String    @id @default(uuid())
-  name             String
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @default(now()) @map("updated_at")
-  
-  @@map("roles")
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  userRoles  UserRole[]
+  roleMenus  RoleMenu[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Menu {
+  id         Int         @id @default(autoincrement())
+  name       String
+  path       String
+  icon       String?
+
+  // cấu trúc phân cấp
+  parentId   Int?     
+  parent     Menu?       @relation("MenuHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children   Menu[]      @relation("MenuHierarchy")
+
+  roleMenus  RoleMenu[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model UserRole {
+  id       Int    @id @default(autoincrement())
+  userId   Int
+  roleId   Int
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  @@unique([userId, roleId])
 }
 
 model RoleMenu {
-  id               String    @id @default(uuid())
-  roleId           String    @map("role_id")
-  menuId           String    @map("menu_id")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @default(now()) @map("updated_at")
-  
-  @@map("role_menus")
+  id       Int    @id @default(autoincrement())
+  roleId   Int
+  menuId   Int
+  role     Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  menu     Menu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  @@unique([roleId, menuId])
 }
-

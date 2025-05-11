@@ -4,6 +4,8 @@ import {
   AUTH_SERVICE_NAME,
   AuthServiceClient,
   DefaultResponse,
+  ValidateTokenRequest,
+  ValidateTokenResponse,
 } from '@libs/shared/proto/gen/auth.pb';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
@@ -25,5 +27,10 @@ export class AuthService implements OnModuleInit {
 
   logout(req: DefaultRequest): Observable<DefaultResponse> {
     return this.service.logout(req);
+  }
+
+  validateToken(token: string): Observable<ValidateTokenResponse> {
+    const request: ValidateTokenRequest = { token };
+    return this.service.validateToken(request);
   }
 }

@@ -4,6 +4,8 @@ import { GrpcMethod } from '@nestjs/microservices';
 import {
   AUTH_SERVICE_NAME,
   DefaultResponse,
+  ValidateTokenRequest,
+  ValidateTokenResponse,
 } from '@libs/shared/proto/gen/auth.pb';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -21,5 +23,10 @@ export class AuthController {
   @GrpcMethod(AUTH_SERVICE_NAME, 'Logout')
   private async logout(req: any): Promise<DefaultResponse> {
     return this.service.logout(req);
+  }
+
+  @GrpcMethod(AUTH_SERVICE_NAME, 'ValidateToken')
+  private async validateToken(req: ValidateTokenRequest): Promise<ValidateTokenResponse> {
+    return this.service.validateToken(req.token);
   }
 }

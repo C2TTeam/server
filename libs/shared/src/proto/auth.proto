@@ -6,6 +6,7 @@ package auth;
 service AuthService {
   rpc Login (DefaultRequest) returns (DefaultResponse) {}
   rpc Logout (DefaultRequest) returns (DefaultResponse) {}
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse) {}
 }
 
 message DefaultRequest {
@@ -20,4 +21,15 @@ message DefaultResponse {
   string message = 2;
   repeated string errors = 3;
   google.protobuf.Struct data = 4;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  bool isValid = 1;
+  int32 userId = 2;
+  string username = 3;
+  repeated string roles = 4;
 }
